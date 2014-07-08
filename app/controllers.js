@@ -31,13 +31,13 @@
 
         });
 
-        $scope.rotateImage = function () {
+        $scope.rotateImage = function() {
 
             if(rotator) {
                 return;
             }
 
-            rotator = $interval(function () {
+            rotator = $interval(function() {
                 counter += 1;
                 if (counter == $scope.item.images.length) {
                     counter = 0;
@@ -46,7 +46,7 @@
             }, 1500);
         };
 
-        $scope.cancelRotator = function () {
+        $scope.cancelRotator = function() {
             if (rotator) {
                 $interval.cancel(rotator);
                 rotator = undefined;
