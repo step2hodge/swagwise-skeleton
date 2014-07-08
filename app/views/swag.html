@@ -32,13 +32,13 @@
             <h4 ng-bind="item.title"></h4>
             <div class="row">
                 <div class="col-xs-6 col-md-6">
-                    <a href="#" class="thumbnail">
+                    <a ui-sref="product({id:item.id})" class="thumbnail">
                         <img ng-src="assets/images/{{item.images[0]}}" alt="{{item.title}}">
                     </a>
                 </div>
                 <p ng-bind="item.description"></p>
             </div>
-            <p><a class="btn btn-default" href="#" role="button">View details <i class="glyphicon glyphicon-chevron-right"></i></a> <a class="btn btn-primary" href="#" role="button"><i class="glyphicon glyphicon-plus"></i> Add to cart</a></p>
+            <p><a class="btn btn-default" ui-sref="product({id:item.id})" role="button">View details <i class="glyphicon glyphicon-chevron-right"></i></a> <a class="btn btn-primary" href="#" role="button"><i class="glyphicon glyphicon-plus"></i> Add to cart</a></p>
         </div>
 
     </div>

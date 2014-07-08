@@ -18,6 +18,11 @@
                 controller: 'SwagController',
                 templateUrl: 'views/swag.html'
             })
+            .state('product', {
+                url: '/product/:id',
+                controller: 'ProductDetail',
+                templateUrl: 'views/detail.html'
+            })
             .state('about', {
                 url: '/about',
                 templateUrl: 'views/about.html'

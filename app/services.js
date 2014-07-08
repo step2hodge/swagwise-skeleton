@@ -7,14 +7,9 @@
 
     //app.service
 
-    app.factory('SwagService', function($http) {
+    app.factory('SwagService', function($resource) {
 
-        return {
-
-            swag: function() {
-                return $http.get('assets/json/swag.json');
-            }
-        };
+        return $resource('/api/swag/:id');
 
     });
 

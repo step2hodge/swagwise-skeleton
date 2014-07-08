@@ -2,6 +2,11 @@ body {
     padding-top: 100px;
 }
 
+.navbar-header {
+    display: block;
+    width: 30%;
+}
+
 @media (max-width: 970px) {
     .navbar-header {
         height: 100px;
