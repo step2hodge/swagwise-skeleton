@@ -15,7 +15,7 @@
             if(newValue) {
                 // Filter swag
                 // TODO fitler by title doesn't always work, fix it
-                $scope.swag = filterFilter(items, newValue, 'title');
+                $scope.swag = filterFilter(items, {title: newValue});
 
             }else {
                 // Reset swag
