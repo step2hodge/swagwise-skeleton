@@ -11,6 +11,7 @@
         $stateProvider
             .state('home', {
                 url: '/',
+                controller: 'HomeController',
                 templateUrl: 'views/home.html'
             })
             .state('swag', {
@@ -20,7 +21,7 @@
             })
             .state('product', {
                 url: '/product/:id',
-                controller: 'ProductDetail',
+                controller: 'ProductDetailController',
                 templateUrl: 'views/detail.html'
             })
             .state('about', {
@@ -33,6 +34,7 @@
             })
             .state('cart', {
                 url: '/cart',
+                controller: 'CartController',
                 templateUrl: 'views/cart.html'
             })
             .state('login', {

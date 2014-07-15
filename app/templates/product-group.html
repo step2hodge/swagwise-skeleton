@@ -8,5 +8,8 @@
         </div>
         <p ng-bind="item.description"></p>
     </div>
-    <p><a class="btn btn-default" ui-sref="product({id:item.id})" role="button">View details <i class="glyphicon glyphicon-chevron-right"></i></a> <a class="btn btn-primary" href="#" role="button"><i class="glyphicon glyphicon-plus"></i> Add to cart</a></p>
+    <p>
+        <a class="btn btn-default" ui-sref="product({id:item.id})" role="button">View details <i class="glyphicon glyphicon-chevron-right"></i></a>
+        <add-cart-button item="item"></add-cart-button>
+    </p>
 </div>
