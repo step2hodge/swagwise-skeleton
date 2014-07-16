@@ -7,7 +7,7 @@ module.exports = function(app) {
     // Handle API calls
 
     // Swag API route
-    app.route('/api/swag/')
+    app.route('/api/swag')
         .get(function(req, res) {
 
             // use mongoose to get all products in the database
