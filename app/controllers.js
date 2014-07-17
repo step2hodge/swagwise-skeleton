@@ -52,6 +52,14 @@
             CartService.addItem(item);
         };
 
+        $scope.getItemPrice = function(item) {
+            return item.specialPrice || item.price;
+        };
+
+        $scope.getItemSubtotal = function(item) {
+           return $scope.getItemPrice(item) * item.quantity;
+        };
+
         $scope.getItemCount = function() {
             // Return the item count from the CartService
             return CartService.getItemCount();
@@ -63,7 +71,7 @@
         };
 
         $scope.getCartTotal = function() {
-            // Return the cart total using the getCartTotal methode of the CartService
+            // Return the cart total using the getCartTotal method of the CartService
             return CartService.getCartTotal();
         };
 
@@ -75,7 +83,9 @@
         $scope.emptyCart = function() {
             // Invoke the emptyCart method of the CartService
             CartService.emptyCart();
-        }
+            // Update the items on the scope
+            $scope.items = CartService.getItems();
+        };
 
         $scope.checkout = function() {
             // Invoke the checkout method of the CartService

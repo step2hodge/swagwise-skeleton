@@ -105,4 +105,30 @@
         }
     });
 
+    // Inject in the CartService
+    app.directive('miniCart', function(CartService) {
+
+        return {
+            // Create an isolated scope
+            scope: {
+            },
+            restrict: 'E',
+            replace: true,
+            templateUrl: 'templates/mini-cart.html',
+            link: function(scope) {
+
+                scope.getCartSubtotal = function() {
+                    // Returns subtotal from CartService
+                    return CartService.getCartSubtotal();
+                };
+
+                scope.getItemCount = function() {
+                    //Returns the item count from the CartService
+                    return CartService.getItemCount();
+                };
+            }
+
+        };
+    });
+
 })(window.angular);
