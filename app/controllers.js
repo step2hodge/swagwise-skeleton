@@ -47,6 +47,12 @@
         // Set the items on the scope to the items in the CartService using the getItems method
         $scope.items = CartService.getItems();
 
+        $scope.updateItem = function(item) {
+            if(typeof item.quantity === 'number') {
+                CartService.updateItemsCookie();
+            }
+        }
+
         $scope.addItem = function(item) {
             // Pass the item into the addItem method of the CartService
             CartService.addItem(item);
@@ -57,7 +63,7 @@
         };
 
         $scope.getItemSubtotal = function(item) {
-           return $scope.getItemPrice(item) * item.quantity;
+            return $scope.getItemPrice(item) * item.quantity;
         };
 
         $scope.getItemCount = function() {

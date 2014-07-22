@@ -117,6 +117,8 @@
             templateUrl: 'templates/mini-cart.html',
             link: function(scope) {
 
+                CartService.getItems();
+
                 scope.getCartSubtotal = function() {
                     // Returns subtotal from CartService
                     return CartService.getCartSubtotal();
