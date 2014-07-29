@@ -13,22 +13,10 @@ var express      = require('express'),
     session      = require('express-session'),
     LocalStrategy = require('passport-local').Strategy,
     bcrypt        = require('bcrypt-nodejs');
-    http         = require('http'),
-    https        = require('https');
 
 /* ===================== CONFIGURATION ==================== */
 
-var app = express();
-
-var privateKey   = fs.readFileSync('cert/server.key', 'utf8');
-var certificate  = fs.readFileSync('cert/server.crt', 'utf8');
-var credentials  = {key: privateKey, cert: certificate};
-
-var httpServer   = http.createServer(app);
-var httpsServer  = https.createServer(credentials, app);
-
 var port = process.env.PORT || 9001;					                // Default port or port 9001
-var sslport = 8443;                                                     // 8443 for development, 443 for production
 
 /*
  * Mongoose by default sets the auto_reconnect option to true.
@@ -66,15 +54,13 @@ mongoose.connect(mongooseUri, options);
 conn.on('error', console.error.bind(console, 'connection error:'));
 conn.once('open', function() {
     // Wait for the database connection to establish, then start the app.
-    httpServer.listen(port);                                          // startup our app at http://localhost:9001
-    httpsServer.listen(sslport);                                      // startup our HTTPS server on http://localhost:8443 or :443
+    app.listen(port);                                                       // startup our app at http://localhost:9001
     console.log('Get your swagger on at http://localhost:' + port);   // shoutout to the user
-    console.log('Get your secure swagger on at https://localhost:' + sslport);   // shoutout to the user
 });
 /*
 mongoose.connect('mongodb://localhost:27017/swag');
 mongoose.connection.once('open', function() {
-    app.listen(port);                                                 // startup our app at http://localhost:9001
+    app.listen(port);                                                       // startup our app at http://localhost:9001
     console.log('Get your swagger on at http://localhost:' + port);   // shoutout to the user
 });
 */
@@ -135,14 +121,6 @@ passport.use(new LocalStrategy({ usernameField: 'email' }, function(email, passw
 
 /* ======================== ROUTES ========================= */
 
-/* ======================== ROUTES ========================= */
 require('./routes.js')(app);                            		        // configure our routes, passing in app reference
-
-/* ======================== MERCHANTS ====================== */
-
-/*stripe.customers.list({ limit: 3 }, function(err, customers) {
-    // asynchronously called
-    console.log(customers);
-});*/
 
 exports = module.exports = app;                                         // expose app

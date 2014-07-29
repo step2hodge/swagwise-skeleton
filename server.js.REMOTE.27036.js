@@ -1,20 +1,14 @@
 /* ================= REQUIRE MODULES ===================== */
 
 var express      = require('express'),
-    app          = express(),
     path         = require('path'),
     fs           = require('fs'),
     logger       = require('morgan'),
     mongoose     = require('mongoose'),
     uriUtil      = require('mongodb-uri'),
-    cookieParser = require('cookie-parser'),
-    bodyParser   = require('body-parser'),
-    passport     = require('passport'),
-    session      = require('express-session'),
-    LocalStrategy = require('passport-local').Strategy,
-    bcrypt        = require('bcrypt-nodejs');
     http         = require('http'),
-    https        = require('https');
+    https        = require('https'),
+    stripe       = require('stripe')('sk_test_MPZw5Of5EjrfHaAM789HgPUc');
 
 /* ===================== CONFIGURATION ==================== */
 
@@ -69,71 +63,24 @@ conn.once('open', function() {
     httpServer.listen(port);                                          // startup our app at http://localhost:9001
     httpsServer.listen(sslport);                                      // startup our HTTPS server on http://localhost:8443 or :443
     console.log('Get your swagger on at http://localhost:' + port);   // shoutout to the user
-    console.log('Get your secure swagger on at https://localhost:' + sslport);   // shoutout to the user
 });
 /*
 mongoose.connect('mongodb://localhost:27017/swag');
 mongoose.connection.once('open', function() {
-    app.listen(port);                                                 // startup our app at http://localhost:9001
+    app.listen(port);                                                       // startup our app at http://localhost:9001
     console.log('Get your swagger on at http://localhost:' + port);   // shoutout to the user
 });
 */
 
 /* ================= REGISTER MODULES ===================== */
-
 app.use(logger('dev'));                                 		        // log every request to the console
-app.use(bodyParser.json());                             		        // have the ability to simulate DELETE and PUT
-app.use(bodyParser.urlencoded());                       		        // have the ability to simulate DELETE and PUT
-app.use(cookieParser());                                		        // have the ability to parse cookies
 app.use(express.static(path.join(__dirname, 'app')));		            // set the static files location
-app.use(session({ secret: 'blackwidow straw' }));                       // Encryption key/salt
-app.use(passport.initialize());                                         // Initializes passport
-app.use(passport.session());
-app.use(function(req, res, next) {
-    if (req.user) {
-        res.cookie('user', JSON.stringify(req.user));
-    }
-    next();
-});
+
 
 /* ======================== MODELS ========================= */
 fs.readdirSync(__dirname + '/models').forEach(function(filename) {
     if(~filename.indexOf('.js')) require(__dirname + '/models/' + filename)
 });
-
-/* ===================== PASSPORT ========================= */
-passport.serializeUser(function(user, done) {
-    done(null, user.id);
-});
-
-passport.deserializeUser(function(id, done) {
-    var User = mongoose.model('User');
-
-    User.findById(id, function(err, user) {
-        done(err, user);
-    });
-});
-
-passport.use(new LocalStrategy({ usernameField: 'email' }, function(email, password, done) {
-    var User = mongoose.model('User');
-
-    User.findOne({ email: email }, function(err, user) {
-        if (err) return done(err);
-        if (!user) return done(null, false);
-
-        function cb(err, isMatch) {
-            if (err) return done(err);
-            if (isMatch) return done(null, user);
-            return done(null, false);
-        }
-        bcrypt.compare(password, user.password, function(err, isMatch) {
-            if (err) return cb(err);
-            cb(null, isMatch);
-        });
-    });
-}));
-
-/* ======================== ROUTES ========================= */
 
 /* ======================== ROUTES ========================= */
 require('./routes.js')(app);                            		        // configure our routes, passing in app reference
@@ -144,5 +91,31 @@ require('./routes.js')(app);                            		        // configure o
     // asynchronously called
     console.log(customers);
 });*/
+
+stripe.charges.create({
+    amount: 400,
+    currency: "usd",
+    card: {
+        number: '4242424242424242',
+        exp_month: 07,
+        exp_year: 2015,
+        name: 'BB Thorton',
+        "brand": "Visa",
+        "funding": "credit",
+        "country": "US",
+        "address_line1": null,
+        "address_line2": null,
+        "address_city": null,
+        "address_state": null,
+        "address_zip": null,
+        "address_country": null,
+        "cvc_check": null,
+        "address_line1_check": null,
+        "address_zip_check": null,
+        "customer": null
+    }
+}, function(err, charge) {
+    console.log(charge);
+});
 
 exports = module.exports = app;                                         // expose app

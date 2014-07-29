@@ -136,7 +136,21 @@
 
         $scope.imageInterval = 3000;
 
-        $scope.item = SwagService.get({id: product_id});
+        $scope.item = SwagService.get({id: product_id}, function(item) {
+           $scope.relatedSwag = [];
+
+           angular.forEach(item.tags, function(tag) {
+               SwagService.query({tags: tag}, function(response) {
+                   angular.forEach(response, function(product) {
+                       if(item.id !== product.id) {
+                           $scope.relatedSwag.push(product);
+                       }
+                   });
+
+               });
+           });
+
+        });
 
         // http://localhost:8080/api/swag/1
 

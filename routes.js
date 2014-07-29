@@ -6,6 +6,9 @@ module.exports = function(app) {
     /* Add the dependency to passport after the mongoose require decleration */
     var passport = require('passport');
 
+    /* Add the dependency to Stripe */
+    var stripe   = require('stripe')('sk_test_MPZw5Of5EjrfHaAM789HgPUc');
+
     /* ======================= REST ROUTES ====================== */
     // Handle API calls
 
@@ -67,9 +70,43 @@ module.exports = function(app) {
         });
     });
 
+    /* ========================= CHECK OUT ROUTES ======================= */
+
+    app.route('/api/checkout')
+        .post(function(req, res, next) {
+
+            stripe.charges.create({
+                amount: 5000,
+                currency: "usd",
+                card: {
+                    number: '4242424242424242',
+                    exp_month: 07,
+                    exp_year: 2015,
+                    name: 'Jack The Ripper',
+                    "brand": "Visa",
+                    "funding": "credit",
+                    "country": "US",
+                    "address_line1": null,
+                    "address_line2": null,
+                    "address_city": null,
+                    "address_state": null,
+                    "address_zip": null,
+                    "address_country": null,
+                    "cvc_check": null,
+                    "address_line1_check": null,
+                    "address_zip_check": null,
+                    "customer": null
+                }
+            }, function(err, charge) {
+                res.send(charge);
+            });
+
+        });
+
     /* ========================= FRONT-END ROUTES ======================= */
     // route to handle all angular requests
-    app.get('*', function(req, res) {
+    app.route('*')
+        .all(function(req, res) {
         res.sendfile('./app/index.html'); // load our public/index.html file
     });
 
