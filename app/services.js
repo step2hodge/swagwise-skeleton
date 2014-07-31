@@ -3,54 +3,70 @@
 
     var app = angular.module('Swagwise');
 
-    //app.provider
+    app.factory('API', function($resource) {
 
-    //app.service
+        return {
 
-    app.factory('Auth', function($http, $rootScope, $cookieStore) {
+            swag: $resource('/api/swag/:id'),
+
+            checkout: $resource('/api/checkout'),
+
+            login: $resource('/api/login'),
+
+            logout: $resource('/api/logout'),
+
+            register: $resource('/api/register')
+
+        };
+
+    });
+
+    app.factory('Auth', function(API, $rootScope, $cookieStore) {
 
         $rootScope.currentUser = $cookieStore.get('user');
-        $cookieStore.remove('user');
 
         return {
 
             login: function(user, success, error) {
-                return $http.post('/api/login', user)
-                    .success(function(data) {
-                        $rootScope.currentUser = data;
+                return API.login.save(user)
+                    .$promise
+                    .then(
+                        function(data) {
+                            $rootScope.currentUser = data;
 
-                        success();
-                    })
-                    .error(error);
+                            success();
+                        },
+                        error
+                    );
             },
 
             signup: function(user, success, error) {
-                return $http.post('/api/signup', user)
-                    .success(success)
-                    .error(error);
+                return API.register.save(user).$promise.then(success, error);
             },
 
             logout: function(success) {
-                return $http.get('/api/logout').success(function() {
+                return API.logout.get()
+                    .$promise
+                    .then(function() {
 
-                    $rootScope.currentUser = null;
-                    $cookieStore.remove('user');
+                        $rootScope.currentUser = null;
+                        $cookieStore.remove('user');
 
-                    success();
-                });
+                        success();
+                    });
             }
         };
 
     });
 
-    app.factory('SwagService', function($resource) {
+    app.factory('SwagService', function(API) {
 
-        return $resource('/api/swag/:id');
+        return API.swag;
 
     });
 
     // Inject in $cookieStore, SwagService and app config
-    app.factory('CartService', function($cookieStore, SwagService) {
+    app.factory('CartService', function($state, $cookieStore, API) {
 
         // Private items object
         var items = {};
@@ -70,7 +86,7 @@
                         // Loop through cookie and get the item by it's id
                         angular.forEach(itemsCookie, function(quantity, id) {
                             // Add each item to the items object and set it's quantity
-                            SwagService.get({id: id}, function(product) {
+                            API.swag.get({id: id}, function(product) {
                                 // Update the quantity to the quantity saved in the cookie
                                 product.quantity = parseInt(quantity);
                                 // Add the product to the cart items object using the guid as the key
@@ -119,6 +135,7 @@
             getItemCount: function() {
                 // Initialize total counter
                 var total = 0;
+                // var items = this.getItems();
                 // Loop through items and increment the total by the item quantity
                 angular.forEach(items, function(item) {
                     total += parseInt(item.quantity) || 1;
@@ -130,6 +147,7 @@
             getCartSubtotal: function() {
                 // Initialize the total counter
                 var total = 0;
+                //var items = this.getItems();
                 // Loop through the items and multiply the quantity by the item price and increment the total
                 angular.forEach(items, function(item) {
                     var price = item.specialPrice? parseFloat(item.specialPrice) : parseFloat(item.price);
@@ -144,8 +162,27 @@
                 return this.getCartSubtotal();
             },
 
-            checkout: function() {
-                // Implement the checkout
+            checkout: function(card) {
+                // Get the user
+                var user = $cookieStore.get('user');
+
+                // Set up the data
+                var data = {
+                    amount: this.getCartTotal(),
+                    customer_id: user ? user.customer_id : null
+                };
+
+                // Merge card and data
+                angular.extend(data, card);
+
+                // Checkout with API
+                API.checkout.save(data)
+                    .$promise
+                    .then(
+                    function(response) {
+                        $state.go('receipt', response);
+                    }
+                );
             },
 
             updateItemsCookie: function() {

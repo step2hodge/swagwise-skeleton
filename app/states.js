@@ -37,6 +37,16 @@
                 controller: 'CartController',
                 templateUrl: 'views/cart.html'
             })
+            .state('checkout', {
+                url: '/checkout',
+                controller: 'CheckoutController',
+                templateUrl: 'views/checkout.html'
+            })
+            .state('receipt', {
+                url: '/receipt',
+                controller: 'ReceiptController',
+                templateUrl: 'views/receipt.html'
+            })
             .state('login', {
                 url: '/login',
                 controller: 'LoginController',

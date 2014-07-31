@@ -134,15 +134,6 @@ passport.use(new LocalStrategy({ usernameField: 'email' }, function(email, passw
 }));
 
 /* ======================== ROUTES ========================= */
-
-/* ======================== ROUTES ========================= */
-require('./routes.js')(app);                            		        // configure our routes, passing in app reference
-
-/* ======================== MERCHANTS ====================== */
-
-/*stripe.customers.list({ limit: 3 }, function(err, customers) {
-    // asynchronously called
-    console.log(customers);
-});*/
+require('./routes.js')(app);
 
 exports = module.exports = app;                                         // expose app

@@ -152,12 +152,10 @@
 
         });
 
-        // http://localhost:8080/api/swag/1
-
     });
 
     // Inject in the CartService
-    app.controller('CartController', function($scope, CartService) {
+    app.controller('CartController', function($scope, $state, CartService) {
 
         // Set the items on the scope to the items in the CartService using the getItems method
         $scope.items = CartService.getItems();
@@ -166,7 +164,7 @@
             if(typeof item.quantity === 'number') {
                 CartService.updateItemsCookie();
             }
-        }
+        };
 
         $scope.addItem = function(item) {
             // Pass the item into the addItem method of the CartService
@@ -209,10 +207,34 @@
         };
 
         $scope.checkout = function() {
-            // Invoke the checkout method of the CartService
-            CartService.checkout();
+            $state.go('checkout');
         };
 
+    });
+
+    app.controller('CheckoutController', function($scope, CartService) {
+
+        // Add a card object to the scope
+        $scope.card = {};
+
+        // Add a checkout function
+        $scope.checkout = function() {
+            // Checkout using CartService
+            CartService.checkout($scope.card);
+
+        };
+
+    });
+
+    app.controller('ReceiptController', function($scope, $stateParams, CartService) {
+
+        var items = CartService.getItems();
+
+        $scope.order = $stateParams;
+
+        $scope.items = angular.copy(items);
+
+        CartService.emptyCart();
     });
 
 })(window.angular);

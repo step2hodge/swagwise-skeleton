@@ -58,15 +58,31 @@ module.exports = function(app) {
     });
 
     // signup API route
-    app.post('/api/signup', function(req, res, next) {
+    app.post('/api/register', function(req, res, next) {
         var User = mongoose.model('User');
-        var user = new User({
-            email: req.body.email,
-            password: req.body.password
-        });
-        user.save(function(err) {
-            if (err) return next(err);
-            res.send(200);
+        var email = req.body.email;
+
+        // Create a customer
+        stripe.customers.create({
+
+            email: email
+
+        }, function(err, customer){
+
+            if(err) return next(err);
+
+            var user = new User({
+                email: email,
+                password: req.body.password,
+                customer_id: customer.id
+            });
+
+            user.save(function(err) {
+                if (err) return next(err);
+
+                res.send(200);
+            });
+
         });
     });
 
@@ -75,30 +91,25 @@ module.exports = function(app) {
     app.route('/api/checkout')
         .post(function(req, res, next) {
 
-            stripe.charges.create({
-                amount: 5000,
+            var charge = {
+                amount: parseInt(req.body.amount) * 100,
                 currency: "usd",
                 card: {
-                    number: '4242424242424242',
-                    exp_month: 07,
-                    exp_year: 2015,
-                    name: 'Jack The Ripper',
-                    "brand": "Visa",
-                    "funding": "credit",
-                    "country": "US",
-                    "address_line1": null,
-                    "address_line2": null,
-                    "address_city": null,
-                    "address_state": null,
-                    "address_zip": null,
-                    "address_country": null,
-                    "cvc_check": null,
-                    "address_line1_check": null,
-                    "address_zip_check": null,
-                    "customer": null
+                    number: parseInt(req.body.number),
+                    exp_month: parseInt(req.body.month),
+                    exp_year: parseInt(req.body.year),
+                    name: req.body.name,
+                    cvc: parseInt(req.body.cvv),
+                    customer: req.body.customer_id || null
                 }
-            }, function(err, charge) {
-                res.send(charge);
+            };
+
+            stripe.charges.create(charge, function(err, order) {
+
+                if(err) return next(err);
+
+                res.send(order);
+
             });
 
         });
