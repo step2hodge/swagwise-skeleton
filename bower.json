@@ -1,0 +1,31 @@
+{
+  "name": "swagwise",
+  "version": "0.0.0",
+  "homepage": "https://github.com/aaronroberson/swagwise-skeleton",
+  "authors": [
+    "Aaron Roberson <aaronaroberson@gmail.com>"
+  ],
+  "description": "swagwise e-commerce edu app",
+  "main": "app/index.html",
+  "keywords": [
+    "angulajs",
+    "geekwise"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "app/assets/lib",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.2.21",
+    "jquery": "2"
+  },
+  "resolutions": {
+    "angular": "1.3"
+  }
+}

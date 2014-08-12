@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="Swagwise">
 <head lang="en">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -36,83 +36,34 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a>Home</a></li>
-                    <li><a href="swag.html">Swag</a></li>
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="views/swag.html">Swag</a></li>
+                    <li><a href="views/about.html">About</a></li>
+                    <li><a href="views/contact.html">Contact</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a href="login.html">Login</a>
+                        <a href="views/login.html">Login</a>
                     </li>
-                    <li><a href="signup.html">Register</a></li>
+                    <li><a href="views/signup.html">Register</a></li>
                 </ul>
             </div><!--/.navbar-collapse -->
         </div>
     </div>
 
-    <div class="jumbotron">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-12 col-lg-12">
-                    <h1 class="h1">
-                        Swagwise <small>Get your swagger on!</small></h1>
-                </div>
-            </div>
-        </div>
-    </div>
+    <ui-view></ui-view>
 
     <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <h3>Featured Products</h3>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4">
-                <h4>Product Title</h4>
-                <div class="row">
-                    <div class="col-xs-4 col-md-6">
-                        <a href="#" class="thumbnail">
-                            <img src="http://placehold.it/180x180" alt="">
-                        </a>
-                    </div>
-                    <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-                </div>
-                <p><a class="btn btn-default" href="#" role="button">View details <i class="glyphicon glyphicon-chevron-right"></i></a></p>
-            </div>
-            <div class="col-md-4">
-                <h4>Product Title</h4>
-                <div class="row">
-                    <div class="col-xs-6 col-md-6">
-                        <a href="#" class="thumbnail">
-                            <img src="http://placehold.it/180x180" alt="">
-                        </a>
-                    </div>
-                    <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-                </div>
-                <p><a class="btn btn-default" href="#" role="button">View details <i class="glyphicon glyphicon-chevron-right"></i></a></p>
-            </div>
-            <div class="col-md-4">
-                <h4>Product Title</h4>
-                <div class="row">
-                    <div class="col-xs-6 col-md-6">
-                        <a href="#" class="thumbnail">
-                            <img src="http://placehold.it/180x180" alt="">
-                        </a>
-                    </div>
-                    <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-                </div>
-                <p><a class="btn btn-default" href="#" role="button">View details <i class="glyphicon glyphicon-chevron-right"></i></a></p>
-            </div>
-        </div>
+        <hr>
+        <footer>
+            <p>Swagwise is a fictitious site used for educational purposes. MIT license.</p>
+        </footer>
     </div>
 
-<div class="container">
-    <hr>
-    <footer>
-        <p>Swagwise is a fictitious site used for educational purposes. MIT license.</p>
-    </footer>
-</div>
+    <script src="assets/lib/jquery/dist/jquery.min.js"></script>
+    <script src="assets/lib/angular/angular.min.js"></script>
+    <script src="assets/lib/angular-ui-router/release/angular-ui-router.js"></script>
 
+    <script src="app.js"></script>
+    <script src="states.js"></script>
 </body>
 </html>
