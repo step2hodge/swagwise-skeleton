@@ -1,20 +1,20 @@
 /* ================= REQUIRE MODULES ===================== */
 
-var express      = require('express'),
-    app          = express(),
-    path         = require('path'),
-    fs           = require('fs'),
-    logger       = require('morgan'),
-    mongoose     = require('mongoose'),
-    uriUtil      = require('mongodb-uri'),
-    cookieParser = require('cookie-parser'),
-    bodyParser   = require('body-parser'),
-    passport     = require('passport'),
-    session      = require('express-session'),
+var express       = require('express'),
+    app           = express(),
+    path          = require('path'),
+    fs            = require('fs'),
+    logger        = require('morgan'),
+    mongoose      = require('mongoose'),
+    uriUtil       = require('mongodb-uri'),
+    cookieParser  = require('cookie-parser'),
+    bodyParser    = require('body-parser'),
+    passport      = require('passport'),
+    session       = require('express-session'),
     LocalStrategy = require('passport-local').Strategy,
-    bcrypt        = require('bcrypt-nodejs');
-    http         = require('http'),
-    https        = require('https');
+    bcrypt        = require('bcrypt-nodejs'),
+    http          = require('http'),
+    https         = require('https');
 
 /* ===================== CONFIGURATION ==================== */
 
@@ -27,8 +27,10 @@ var credentials  = {key: privateKey, cert: certificate};
 var httpServer   = http.createServer(app);
 var httpsServer  = https.createServer(credentials, app);
 
-var port = process.env.PORT || 9001;					                // Default port or port 9001
-var sslport = 8443;                                                     // 8443 for development, 443 for production
+// Default port or port 9001
+var port = process.env.PORT || 9001;
+// 8443 for development, 443 for production
+var sslport = 8443;
 
 /*
  * Mongoose by default sets the auto_reconnect option to true.
@@ -81,14 +83,26 @@ mongoose.connection.once('open', function() {
 
 /* ================= REGISTER MODULES ===================== */
 
-app.use(logger('dev'));                                 		        // log every request to the console
-app.use(bodyParser.json());                             		        // have the ability to simulate DELETE and PUT
-app.use(bodyParser.urlencoded());                       		        // have the ability to simulate DELETE and PUT
-app.use(cookieParser());                                		        // have the ability to parse cookies
-app.use(express.static(path.join(__dirname, 'app')));		            // set the static files location
-app.use(session({ secret: 'blackwidow straw' }));                       // Encryption key/salt
-app.use(passport.initialize());                                         // Initializes passport
+// log every request to the console
+app.use(logger('dev'));
+// have the ability to simulate DELETE and PUT
+app.use(bodyParser.json());
+// have the ability to simulate DELETE and PUT
+app.use(bodyParser.urlencoded({ extended: true }));
+// have the ability to parse cookies
+app.use(cookieParser());
+// set the static files location
+app.use(express.static(path.join(__dirname, 'app')));
+// Encryption key/salt
+app.use(session({
+    secret: 'blackwidow straw',
+    saveUninitialized: true,
+    resave: true }));
+// Initializes passport
+app.use(passport.initialize());
+// Create a new passport session
 app.use(passport.session());
+// Flatten the user cookie object
 app.use(function(req, res, next) {
     if (req.user) {
         res.cookie('user', JSON.stringify(req.user));
@@ -136,4 +150,5 @@ passport.use(new LocalStrategy({ usernameField: 'email' }, function(email, passw
 /* ======================== ROUTES ========================= */
 require('./routes.js')(app);
 
-exports = module.exports = app;                                         // expose app
+// Expose the app
+exports = module.exports = app;
