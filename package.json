@@ -2,6 +2,10 @@
     "name": "swagwise",
     "version": "0.0.0",
     "description": "Geekwise e-commerce application",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/aaronroberson/swagwise-skeleton"
+    },
     "main": "server.js",
     "dependencies": {
         "express": "~4.4.1",
