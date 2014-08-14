@@ -31,20 +31,20 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand"><img src="assets/images/swagwise-logo.png" alt="Swagwise"></a>
+                <a class="navbar-brand" ui-sref="home"><img src="assets/images/swagwise-logo.png" alt="Swagwise"></a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a>Home</a></li>
-                    <li><a href="views/swag.html">Swag</a></li>
-                    <li><a href="views/about.html">About</a></li>
-                    <li><a href="views/contact.html">Contact</a></li>
+                    <li ui-sref-active="active"><a ui-sref="home">Home</a></li>
+                    <li ui-sref-active="active"><a ui-sref="swag">Swag</a></li>
+                    <li ui-sref-active="active"><a ui-sref="about">About</a></li>
+                    <li ui-sref-active="active"><a ui-sref="contact">Contact</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a href="views/login.html">Login</a>
+                    <li ui-sref-active="active">
+                        <a ui-sref="login">Login</a>
                     </li>
-                    <li><a href="views/signup.html">Register</a></li>
+                    <li ui-sref-active="active"><a ui-sref="signup">Sign up</a></li>
                 </ul>
             </div><!--/.navbar-collapse -->
         </div>
@@ -65,5 +65,8 @@
 
     <script src="app.js"></script>
     <script src="states.js"></script>
+    <script src="services.js"></script>
+    <script src="controllers.js"></script>
+
 </body>
 </html>

@@ -13,57 +13,22 @@
     <div class="row">
         <div class="col-md-12">
             <div class="input-group">
-                <input type="text" class="form-control">
+                <input type="text" class="form-control" ng-model="swagSearch.title">
                 <span class="input-group-addon">Search</span>
             </div>
+            <span class="help-block" ng-show="swagSearch.length">Filtering by <strong ng-bind="swagSearch"></strong></span>
         </div>
     </div>
     <div class="row">
-        <div class="col-md-3">
-            <h4>Product Title</h4>
-            <div class="row">
-                <div class="col-xs-4 col-md-6">
-                    <a href="#" class="thumbnail">
-                        <img src="http://placehold.it/180x180" alt="">
-                    </a>
-                </div>
-                <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-            </div>
-            <p><a class="btn btn-default" href="#" role="button">View details <i class="glyphicon glyphicon-chevron-right"></i></a> <a class="btn btn-primary" href="#" role="button"><i class="glyphicon glyphicon-plus"></i> Add to cart</a></p>
-        </div>
-        <div class="col-md-3">
-            <h4>Product Title</h4>
+        <div class="col-md-3" ng-repeat="item in swag | filter:swagSearch">
+            <h4 ng-bind="item.title"></h4>
             <div class="row">
                 <div class="col-xs-6 col-md-6">
                     <a href="#" class="thumbnail">
-                        <img src="http://placehold.it/180x180" alt="">
+                        <img ng-src="assets/images/{{ item.images[0]}}" alt="{{item.title}}">
                     </a>
                 </div>
-                <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-            </div>
-            <p><a class="btn btn-default" href="#" role="button">View details <i class="glyphicon glyphicon-chevron-right"></i></a> <a class="btn btn-primary" href="#" role="button"><i class="glyphicon glyphicon-plus"></i> Add to cart</a></p>
-        </div>
-        <div class="col-md-3">
-            <h4>Product Title</h4>
-            <div class="row">
-                <div class="col-xs-6 col-md-6">
-                    <a href="#" class="thumbnail">
-                        <img src="http://placehold.it/180x180" alt="">
-                    </a>
-                </div>
-                <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-            </div>
-            <p><a class="btn btn-default" href="#" role="button">View details <i class="glyphicon glyphicon-chevron-right"></i></a> <a class="btn btn-primary" href="#" role="button"><i class="glyphicon glyphicon-plus"></i> Add to cart</a></p>
-        </div>
-        <div class="col-md-3">
-            <h4>Product Title</h4>
-            <div class="row">
-                <div class="col-xs-6 col-md-6">
-                    <a href="#" class="thumbnail">
-                        <img src="http://placehold.it/180x180" alt="">
-                    </a>
-                </div>
-                <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+                <p ng-bind="item.description"></p>
             </div>
             <p><a class="btn btn-default" href="#" role="button">View details <i class="glyphicon glyphicon-chevron-right"></i></a> <a class="btn btn-primary" href="#" role="button"><i class="glyphicon glyphicon-plus"></i> Add to cart</a></p>
         </div>

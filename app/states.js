@@ -19,6 +19,23 @@
                 .state('contact', {
                     url: '/contact',
                     templateUrl: 'views/contact.html'
+                })
+                .state('swag', {
+                    url: '/swag',
+                    controller: 'SwagController',
+                    templateUrl: 'views/swag.html'
+                })
+                .state('cart', {
+                    url: '/cart',
+                    templateUrl: 'views/cart.html'
+                })
+                .state('login', {
+                    url: '/login',
+                    templateUrl: 'views/login.html'
+                })
+                .state('signup', {
+                    url: '/signup',
+                    templateUrl: 'views/signup.html'
                 });
 
         });
