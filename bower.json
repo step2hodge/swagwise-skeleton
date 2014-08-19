@@ -23,7 +23,8 @@
   ],
   "dependencies": {
     "angular": "~1.2.21",
-    "jquery": "2"
+    "jquery": "2",
+    "angular-resource": "~1.2.22"
   },
   "resolutions": {
     "angular": "1.3"

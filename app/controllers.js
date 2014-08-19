@@ -6,10 +6,7 @@
 
             $scope.swagSearch = '';
 
-            SwagService.swag().then(function(response) {
-
-                $scope.swag = response.data;
-            });
+            $scope.swag = SwagService.swag.query();
         });
 
 })(window.angular);

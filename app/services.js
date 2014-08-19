@@ -2,13 +2,11 @@
     "use strict";
 
     angular.module('Swagwise')
-        .factory('SwagService', function($http) {
+        .factory('SwagService', function($resource) {
 
             return {
 
-                swag: function() {
-                    return $http.get('assets/json/swag.json');
-                }
+                swag: $resource('/api/swag')
 
             };
 

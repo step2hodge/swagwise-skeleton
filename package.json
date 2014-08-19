@@ -1,15 +1,17 @@
 {
-    "name": "swagwise",
-    "version": "0.0.0",
-    "description": "Geekwise e-commerce application",
-    "repository": {
-        "type": "git",
-        "url": "git://github.com/aaronroberson/swagwise-skeleton"
-    },
-    "main": "server.js",
-    "dependencies": {
-        "express": "~4.4.1",
-        "morgan": "~1.1.1",
-        "debug": "~0.8.1"
-    }
+  "name": "swagwise",
+  "version": "0.0.0",
+  "description": "Geekwise e-commerce application",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/aaronroberson/swagwise-skeleton"
+  },
+  "main": "server.js",
+  "dependencies": {
+    "debug": "~0.8.1",
+    "express": "~4.4.1",
+    "mongodb-uri": "^0.9.7",
+    "mongoose": "^3.8.15",
+    "morgan": "~1.1.1"
+  }
 }

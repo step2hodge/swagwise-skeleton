@@ -1,7 +1,7 @@
 (function(angular) {
     "use strict";
 
-    angular.module('Swagwise', ['ui.router']);
+    angular.module('Swagwise', ['ngResource', 'ui.router']);
 
 })(window.angular);
 
