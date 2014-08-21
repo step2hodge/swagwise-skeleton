@@ -6,7 +6,7 @@
 
             return {
 
-                swag: $resource('/api/swag')
+                swag: $resource('/api/swag/:id')
 
             };
 
