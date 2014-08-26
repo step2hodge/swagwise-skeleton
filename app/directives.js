@@ -2,7 +2,7 @@
     "use strict";
 
     angular.module('Swagwise')
-        .directive('productThumbnail', function() {
+        .directive('productThumbnail', function(CartService) {
 
             return {
                 restrict: 'E',
@@ -11,7 +11,13 @@
                     swag: '=',
                     swagSearch: '='
                 },
-                templateUrl: 'templates/product-thumbnail.html'
+                templateUrl: 'templates/product-thumbnail.html',
+                link: function(scope) {
+
+                    scope.addItem = function(item) {
+                        CartService.addItem(item);
+                    };
+                }
             };
         });
 

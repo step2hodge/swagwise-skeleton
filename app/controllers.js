@@ -16,8 +16,24 @@
 
             $scope.carouselSpeed = '3000';
 
-            $scope.product = SwagService.swag.get({ id: $stateParams.id });
+            SwagService.swag.get( { id: $stateParams.id },
+                    function(response) {
 
+                        $scope.product = response;
+
+                        $scope.relatedSwag = SwagService.swag.query(
+                            {tags: response.tags[0]}
+                        );
+                    }
+                );
+        })
+        .controller('CartController', function($scope, CartService) {
+
+            $scope.items = [];
+
+            angular.forEach(CartService.getCart(), function(value) {
+                $scope.items.push(value);
+            });
         });
 
 })(window.angular);

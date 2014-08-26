@@ -33,6 +33,7 @@
                 })
                 .state('cart', {
                     url: '/cart',
+                    controller: 'CartController',
                     templateUrl: 'views/cart.html'
                 })
                 .state('login', {
