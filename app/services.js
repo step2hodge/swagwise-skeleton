@@ -21,22 +21,30 @@
             var service = {
 
                 getCart: function() {
-                    return cart;
+                    var items = [];
+                    angular.forEach(cart, function(value) {
+                        items.push(value);
+                    });
+                    return items;
                 },
 
                 getItemCount: function() {
-                    var count = 0;
-                    angular.forEach(cart, function(value) {
-                        count++;
-                    });
-                    return count;
+                    return service.getCart().length;
+                },
+
+                getItemPrice: function(item) {
+                    return item.isSpecial ? item.specialPrice : item.price;
+                },
+
+                getItemSubtotal: function(item) {
+                    return service.getItemPrice(item) * item.quantity;
                 },
 
                 getSubtotal: function() {
                     var subtotal = 0;
                     angular.forEach(cart, function(value, key) {
                         var item = cart[key];
-                        subtotal += item.price * item.quantity;
+                        subtotal += parseFloat(item.price) * parseInt(item.quantity);
                     });
                     return subtotal;
                 },
@@ -50,6 +58,7 @@
                     if (cart[item.id]) {
                         cart[item.id].quantity++;
                     } else {
+                        item.quantity = 1;
                         cart[item.id] = item;
                     }
                 },

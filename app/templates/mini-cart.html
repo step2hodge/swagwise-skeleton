@@ -1,0 +1,10 @@
+<div class="mini-cart" ng-show="getItemCount()">
+    <div class="col-sm-6">
+    <!-- Display the subtotal followed by the number of items in the cart -->
+    <i class="glyphicon glyphicon-shopping-cart"></i>
+    <span ng-bind="getMessage()"></span>
+    </div>
+    <div class="col-sm-6">
+        <a class="btn btn-success" ui-sref="cart" role="button">view cart</a>
+    </div>
+</div>

@@ -14,7 +14,10 @@
 
         <div class="col-md-12">
 
-            <table class="table table-hover">
+            <p>Your cart is empty.</p>
+            <a ui-sref="swag" class="btn btn-primary">Continue shopping</a>
+
+            <table class="table table-hover" ng-show="items.length">
                 <thead>
                     <tr>
                         <th>Product</th>
@@ -29,22 +32,24 @@
                     <tr ng-repeat="item in items">
                         <td class="col-sm-8 col-md-6">
                             <div class="media">
-                                <a class="thumbnail pull-left">
-                                    <img class="media-object" src="http://placehold.it/72x72" style="width: 72px; height: 72px;"> </a>
+                                <a ui-sref="detail({id: item.id})" class="thumbnail pull-left">
+                                    <img class="media-object" ng-src="assets/images/{{item.images[0]}}" style="width: 72px; height: 72px;"> </a>
 
                                 <div class="media-body">
-                                    <h4 class="media-heading"><a href="#">{{ item.title }}</a></h4>
-                                    <h5 class="media-heading"> by <a href="#">Manufacturer</a></h5>
+                                    <h4 class="media-heading"><a ui-sref="detail({id: item.id})" ng-bind="item.title"></a></h4>
+                                    <h5 class="media-heading" ng-bind="'by ' + item.manufacturer"></h5>
                                 </div>
                             </div>
                         </td>
                         <td class="col-sm-1 col-md-1 text-center">
-                            <input type="text" class="form-control" required>
+                            <input type="number" class="form-control" required ng-model="item.quantity">
                         </td>
-                        <td class="col-sm-1 col-md-1 text-center"><strong>$0.00</strong></td>
-                        <td class="col-sm-1 col-md-1 text-center"><strong>$0.00</strong></td>
+                        <td class="col-sm-1 col-md-1 text-center">
+                            <strong ng-bind="getItemPrice(item) | currency"></strong>
+                        </td>
+                        <td class="col-sm-1 col-md-1 text-center"><strong ng-bind="getItemSubtotal(item) | currency"></strong></td>
                         <td class="col-sm-1 col-md-1">
-                            <button type="button" class="btn btn-danger">
+                            <button type="button" class="btn btn-danger" ng-click="removeItem(item.id)">
                                 <span class="glyphicon glyphicon-remove"></span> Remove
                             </button>
                         </td>
@@ -54,7 +59,7 @@
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
                         <td><h5>Subtotal</h5></td>
-                        <td class="text-right"><h5><strong>$0.00</strong></h5></td>
+                        <td class="text-right"><h5><strong ng-bind="getSubtotal() | currency"></strong></h5></td>
                     </tr>
                     <tr>
                         <td>&nbsp;</td>
@@ -68,13 +73,13 @@
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
                         <td><h3>Total</h3></td>
-                        <td class="text-right"><h3><strong>$0.00</strong></h3></td>
+                        <td class="text-right"><h3><strong ng-bind="getTotal() | currency"></strong></h3></td>
                     </tr>
                     <tr>
                         <td>&nbsp;</td>
                         <td>&nbsp;</td>
                         <td>
-                            <button type="button" class="btn btn-danger">
+                            <button type="button" class="btn btn-danger" ng-click="emptyCart()">
                                 <span class="glyphicon glyphicon-remove"></span> Empty Cart
                             </button>
                         </td>

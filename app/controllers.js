@@ -29,11 +29,34 @@
         })
         .controller('CartController', function($scope, CartService) {
 
-            $scope.items = [];
+            $scope.items = CartService.getCart();
 
-            angular.forEach(CartService.getCart(), function(value) {
-                $scope.items.push(value);
-            });
+            $scope.removeItem = function(id) {
+                CartService.removeItem(id);
+                $scope.items = CartService.getCart();
+            };
+
+            $scope.getItemPrice = function(item) {
+                return CartService.getItemPrice(item);
+            };
+
+            $scope.getItemSubtotal = function(item) {
+                return CartService.getItemSubtotal(item);
+            };
+
+            $scope.getSubtotal = function() {
+                return CartService.getSubtotal();
+            };
+
+            $scope.getTotal = function() {
+                return CartService.getTotal();
+            };
+
+            $scope.emptyCart = function() {
+                CartService.emptyCart();
+                $scope.items = CartService.getCart();
+            }
+
         });
 
 })(window.angular);

@@ -19,3 +19,21 @@ body {
         padding-bottom: 40px;
     }
 }
+
+.navbar {
+    border-bottom: none;
+}
+
+.mini-cart {
+    color: #ddd;
+    width: 300px;
+    position: fixed;
+    top: 100px;
+    right: 0;
+    -webkit-border-bottom-left-radius: 5px;
+    -moz-border-radius-bottomleft: 5px;
+    border-bottom-left-radius: 5px;
+    padding: 13px;
+    z-index: 100;
+    background-color: #222;
+}

@@ -19,6 +19,29 @@
                     };
                 }
             };
+        })
+        .directive('miniCart', function(CartService) {
+
+            return {
+                // Create an isolated scope
+                scope: {
+                },
+                restrict: 'E',
+                replace: true,
+                templateUrl: 'templates/mini-cart.html',
+                link: function(scope) {
+
+                    scope.getMessage = function() {
+                        return 'Subtotal: ' + CartService.getSubtotal() + ' - ' + CartService.getItemCount() + ' items';
+                    };
+
+                    scope.getItemCount = function() {
+                        //Returns the item count from the CartService
+                        return CartService.getItemCount();
+                    };
+                }
+
+            };
         });
 
 })(window.angular);
