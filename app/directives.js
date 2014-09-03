@@ -20,7 +20,7 @@
                 }
             };
         })
-        .directive('miniCart', function(CartService) {
+        .directive('miniCart', function(CartService, $filter) {
 
             return {
                 // Create an isolated scope
@@ -32,7 +32,11 @@
                 link: function(scope) {
 
                     scope.getMessage = function() {
-                        return 'Subtotal: ' + CartService.getSubtotal() + ' - ' + CartService.getItemCount() + ' items';
+                        return 'Subtotal: ' + $filter('currency')(CartService.getSubtotal()) + ' - ' + CartService.getItemCount() + ' items';
+                    };
+
+                    scope.getSubtotal = function() {
+                        return CartService.getSubtotal();
                     };
 
                     scope.getItemCount = function() {
