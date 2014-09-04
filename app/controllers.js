@@ -29,11 +29,21 @@
         })
         .controller('CartController', function($scope, CartService) {
 
-            $scope.items = CartService.getCart();
+            function updateItems() {
+                CartService.getCart().then(function() {
+                    $scope.items = CartService.getItems();
+                });
+            }
+
+            updateItems();
 
             $scope.removeItem = function(id) {
                 CartService.removeItem(id);
-                $scope.items = CartService.getCart();
+                updateItems();
+            };
+
+            $scope.getItemCount = function() {
+                return CartService.getItemCount();
             };
 
             $scope.getItemPrice = function(item) {
@@ -54,7 +64,7 @@
 
             $scope.emptyCart = function() {
                 CartService.emptyCart();
-                $scope.items = CartService.getCart();
+                updateItems();
             }
 
         });

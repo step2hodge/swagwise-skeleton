@@ -14,12 +14,12 @@
 
         <div class="col-md-12">
 
-            <div ng-hide="items.length">
+            <div ng-hide="getItemCount()">
                 <p>Your cart is empty.</p>
                 <a ui-sref="swag" class="btn btn-primary">Continue shopping</a>
             </div>
 
-            <table class="table table-hover" ng-show="items.length">
+            <table class="table table-hover" ng-show="getItemCount()">
                 <thead>
                     <tr>
                         <th>Product</th>

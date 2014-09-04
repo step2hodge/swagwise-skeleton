@@ -13,7 +13,7 @@
             return service;
 
         })
-        .factory('CartService', function($cookieStore, SwagService) {
+        .factory('CartService', function($cookieStore, SwagService, $q) {
 
             // Private
             var cart = {};
@@ -21,34 +21,49 @@
             var service = {
 
                 getCart: function() {
+
+                    var cookieCount = 0;
+                    var deferred = $q.defer();
+
+                    if (service.getItems().length) {
+
+                        deferred.resolve();
+                    } else {
+
+                        // Loop through the cookie to get a property count
+                        angular.forEach($cookieStore.get('cart'), function() {
+                            cookieCount ++;
+                        });
+
+                        angular.forEach($cookieStore.get('cart'), function(quantity, id) {
+                            SwagService.swag.get({id: id}).$promise.then(function(product) {
+                                // Add the quantity from the cookie
+                                product.quantity = quantity;
+                                // Add the updated product to the cart
+                                cart[id] = product;
+
+                                // If the cookieCount is back to zero and all AJAX requests have completed
+                                if(--cookieCount == 0) {
+                                    deferred.resolve();
+                                }
+                            });
+                        });
+                    }
+
+                    return deferred.promise;
+                },
+
+                getItems: function() {
                     var items = [];
                     angular.forEach(cart, function(item) {
                         items.push(item);
                     });
                     return items;
-                    /*
-                    var cookieItems;
-                    if (!cart[0]) {
-
-                        cookieItems = $cookieStore.get('cart');
-
-                        angular.forEach(cookieItems, function(quantity, id) {
-                            SwagService.swag.get(
-                                {id: id}, function(product) {
-                                    // Add the quantity from the cookie
-                                    product.quantity = quantity;
-                                    // Add the updated product to the cart
-                                    cart[id] = product;
-                                });
-                        });
-                    }
-                    return service.getItems();
-                    */
                 },
 
                 getItemCount: function() {
                     var count = 0;
-                    angular.forEach(service.getCart(), function(item) {
+                    angular.forEach(service.getItems(), function(item) {
                         count += item.quantity || 1;
                     });
                     return count;
@@ -68,6 +83,7 @@
                         var item = cart[key];
                         subtotal += parseFloat(item.price) * parseInt(item.quantity);
                     });
+
                     return subtotal;
                 },
 

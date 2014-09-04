@@ -31,6 +31,8 @@
                 templateUrl: 'templates/mini-cart.html',
                 link: function(scope) {
 
+                    CartService.getCart();
+
                     scope.getMessage = function() {
                         return 'Subtotal: ' + $filter('currency')(CartService.getSubtotal()) + ' - ' + CartService.getItemCount() + ' items';
                     };
