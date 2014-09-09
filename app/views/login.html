@@ -4,17 +4,17 @@
             <div class="panel-body">
                 <h2 class="text-center">Login</h2>
 
-                <div class="alert alert-{{alert.type}}"></div>
+                <alert ng-repeat="alert in alerts" type="{{alert.type}}">{{alert.message}}</alert>
 
-                <form method="post" name="loginForm">
+                <form method="post" name="loginForm" ng-submit="login()">
 
                     <div class="form-group">
-                        <input type="email" name="email" class="form-control input-lg"
+                        <input type="email" name="email" ng-model="user.email" class="form-control input-lg"
                                placeholder="Email" required autofocus>
                     </div>
 
                     <div class="form-group">
-                        <input type="password" name="password" class="form-control input-lg"
+                        <input type="password" name="password" ng-model="user.password" class="form-control input-lg"
                                placeholder="Password" required>
                     </div>
 

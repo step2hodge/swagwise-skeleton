@@ -2,6 +2,27 @@
     "use strict";
 
     angular.module('Swagwise')
+        .factory('AuthService', function($rootScope, $resource, $cookieStore) {
+
+            $rootScope.user = $cookieStore.get('user');
+
+            return {
+
+                signup: $resource('/api/signup'),
+
+                login: $resource('/api/login'),
+
+                logout: $resource('/api/logout'),
+                
+                getUser: function() {
+                    return $cookieStore.get('user');
+                },
+
+                removeUser: function() {
+                    $cookieStore.remove('user');
+                }
+            };
+        })
         .factory('SwagService', function($resource) {
 
             var service = {

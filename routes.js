@@ -8,6 +8,33 @@ module.exports = function(app) {
     /* ======================= REST ROUTES ====================== */
     // Handle API calls
 
+    /* ========================= AUTH ROUTES ======================= */
+
+    app.get('/api/logout', function(req, res, next) {
+        req.logout();
+        res.send(200);
+    });
+
+    // login API route
+    app.post('/api/login', passport.authenticate('local'), function(req, res) {
+        console.log(req.user);
+        res.cookie('user', JSON.stringify(req.user));
+        res.send(req.user);
+    });
+
+    // signup API route
+    app.post('/api/signup', function(req, res, next) {
+        var User = mongoose.model('User');
+        var user = new User({
+            email: req.body.email,
+            password: req.body.password
+        });
+        user.save(function(err) {
+            if (err) return next(err);
+            res.send(200);
+        });
+    });
+
     // Swag API route
     app.route('/api/swag')
         .get(function(req, res) {
@@ -34,32 +61,6 @@ module.exports = function(app) {
                 res.send(product); // return the product in JSON format
             });
         });
-
-    /* ========================= AUTH ROUTES ======================= */
-
-    app.get('/api/logout', function(req, res, next) {
-        req.logout();
-        res.send(200);
-    });
-
-    // login API route
-    app.post('/api/login', passport.authenticate('local'), function(req, res) {
-        res.cookie('user', JSON.stringify(req.user));
-        res.send(req.user);
-    });
-
-    // signup API route
-    app.post('/api/signup', function(req, res, next) {
-        var User = mongoose.model('User');
-        var user = new User({
-            email: req.body.email,
-            password: req.body.password
-        });
-        user.save(function(err) {
-            if (err) return next(err);
-            res.send(200);
-        });
-    });
 
     /* ========================= FRONT-END ROUTES ======================= */
     // route to handle all angular requests

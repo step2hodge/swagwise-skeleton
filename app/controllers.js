@@ -1,12 +1,91 @@
 (function(angular) {
     "use strict";
 
-    angular.module("Swagwise")
-        .controller("HomeController", function($scope, SwagService) {
+    angular.module('Swagwise')
+        .controller('SignupController', function($scope, $state, $timeout, AuthService) {
+
+            $scope.user = {};
+
+            $scope.alerts = [];
+
+            $scope.signup = function() {
+
+                AuthService.signup.save($scope.user)
+                    .$promise.then(function(response) {
+
+                        $scope.alerts.push({
+                            type: 'success',
+                            message: 'Account created successfully. Redirecting to login.'
+                        });
+
+                        $timeout(function() {
+
+                            $scope.alerts = [];
+
+                            $state.go('login');
+                        }, 3000);
+
+                    }, function() {
+
+                        $scope.alerts.push({
+                            type: 'danger',
+                            message: 'Could not create account. Please try again.'
+                        });
+
+                        $timeout(function() {
+
+                            $scope.alerts = [];
+
+                        }, 3000);
+                    });
+            }
+        })
+        .controller('LoginController', function($scope, $state, $timeout, AuthService) {
+
+            $scope.user = {};
+
+            $scope.alerts = [];
+
+            $scope.login = function() {
+
+                AuthService.login.save($scope.user)
+                    .$promise.then(function(response){
+
+                        $scope.alerts.push({
+                            type: 'success',
+                            message: 'You have successfully logged in.'
+                        });
+
+                        $timeout(function() {
+
+                            $scope.alerts = [];
+
+                            $state.go('home');
+
+                        }, 3000);
+
+                    }, function(response) {
+
+                        $scope.alerts.push({
+                            type: 'danger',
+                            message: 'There was an error logging you in. Please try again.'
+                        });
+
+                        $timeout(function() {
+
+                            $scope.alerts = [];
+
+                        }, 3000);
+                    });
+
+            };
+
+        })
+        .controller('HomeController', function($scope, SwagService) {
 
             $scope.featuredSwag = SwagService.swag.query({ isFeatured: true });
         })
-        .controller("SwagController", function($scope, SwagService) {
+        .controller('SwagController', function($scope, SwagService) {
 
             $scope.swagSearch = '';
 

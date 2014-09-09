@@ -4,6 +4,8 @@ var express      = require('express'),
     app          = express(),
     path         = require('path'),
     fs           = require('fs'),
+    cookieParser = require('cookie-parser'),
+    bodyParser   = require('body-parser'),
     logger       = require('morgan'),
     mongoose     = require('mongoose'),
     uriUtil      = require('mongodb-uri'),
@@ -63,10 +65,21 @@ conn.once('open', function() {
 /* ================= REGISTER MODULES ===================== */
 
 app.use(logger('dev'));                                 		        // log every request to the console
+// have the ability to simulate DELETE and PUT
+app.use(bodyParser.json());
+// have the ability to simulate DELETE and PUT
+app.use(bodyParser.urlencoded({ extended: true }));
+// have the ability to parse cookies
+app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'app')));		            // set the static files location
 
-/* Add the following after express.static in module section */
-app.use(session({ secret: 'blackwidow straw' }));                       // Encryption key/salt
+// Encryption key/salt
+app.use(session({
+        secret: 'blackwidow straw',
+        saveUninitialized: true,
+        resave: true
+    }));
+
 app.use(passport.initialize());                                         // Initializes passport
 app.use(passport.session());                                            // Creates a passport session
 
