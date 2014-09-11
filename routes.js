@@ -4,6 +4,8 @@ module.exports = function(app) {
     var mongoose = require('mongoose');
     // Add the dependency to passport after the mongoose require declaration
 	var passport = require('passport');
+    /* Add the dependency to Stripe */
+    var stripe   = require('stripe')('sk_test_MPZw5Of5EjrfHaAM789HgPUc');
 
     /* ======================= REST ROUTES ====================== */
     // Handle API calls
@@ -25,13 +27,27 @@ module.exports = function(app) {
     // signup API route
     app.post('/api/signup', function(req, res, next) {
         var User = mongoose.model('User');
-        var user = new User({
-            email: req.body.email,
-            password: req.body.password
-        });
-        user.save(function(err) {
-            if (err) return next(err);
-            res.send(200);
+        // Create a customer
+        stripe.customers.create({
+
+            email: req.body.email
+
+        }, function(err, customer){
+
+            if(err) return next(err);
+
+            var user = new User({
+                email: req.body.email,
+                password: req.body.password,
+                customer_id: customer.id
+            });
+
+            user.save(function(err) {
+                if (err) return next(err);
+
+                res.send(200);
+            });
+
         });
     });
 
@@ -48,6 +64,10 @@ module.exports = function(app) {
 
                 res.send(swag); // return products in JSON format
             });
+        })
+
+        .post(function(req, res) {
+            // Add code here to update swag
         });
 
     app.route('/api/swag/:id')
@@ -60,6 +80,33 @@ module.exports = function(app) {
 
                 res.send(product); // return the product in JSON format
             });
+        });
+
+    /* ========================= CHECK OUT ROUTES ======================= */
+    app.route('/api/checkout')
+        .post(function(req, res, next) {
+
+            var charge = {
+                amount: parseInt(req.body.amount) * 100,
+                currency: "usd",
+                card: {
+                    number: parseInt(req.body.number),
+                    exp_month: parseInt(req.body.month),
+                    exp_year: parseInt(req.body.year),
+                    name: req.body.name,
+                    cvc: parseInt(req.body.cvv),
+                    customer: req.body.customer_id || null
+                }
+            };
+
+            stripe.charges.create(charge, function(err, order) {
+
+                if(err) return next(err);
+
+                res.send(order);
+
+            });
+
         });
 
     /* ========================= FRONT-END ROUTES ======================= */

@@ -34,7 +34,7 @@
             return service;
 
         })
-        .factory('CartService', function($cookieStore, SwagService, $q) {
+        .factory('CartService', function($cookieStore, SwagService, $q, $state, $resource) {
 
             // Private
             var cart = {};
@@ -138,7 +138,32 @@
                     $cookieStore.remove('cart');
                 },
 
-                checkout: function() {
+                confirmCheckout: function() {
+                    $state.go('checkout');
+                },
+
+                checkout: function(card) {
+
+                    // Get the user
+                    var user = $cookieStore.get('user');
+
+                    // Set up the data
+                    var data = {
+                        amount: service.getTotal(),
+                        customer_id: user ? user.customer_id : null
+                    };
+
+                    // Merge card and data
+                    angular.extend(data, card);
+
+                    // Checkout with API
+                    $resource('/api/checkout').save(data)
+                        .$promise
+                        .then(
+                        function(response) {
+                            alert("Order processed");
+                        }
+                    );
 
                 },
 

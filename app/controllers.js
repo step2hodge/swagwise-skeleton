@@ -144,7 +144,24 @@
             $scope.emptyCart = function() {
                 CartService.emptyCart();
                 updateItems();
-            }
+            };
+
+            $scope.checkout = function() {
+                CartService.confirmCheckout();
+            };
+
+        })
+        .controller('CheckoutController', function($scope, CartService) {
+
+            // Add a card object to the scope
+            $scope.card = {};
+
+            // Add a checkout function
+            $scope.checkout = function() {
+                // Checkout using CartService
+                CartService.checkout($scope.card);
+
+            };
 
         });
 

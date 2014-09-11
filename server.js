@@ -13,6 +13,8 @@ var express      = require('express'),
     session      = require('express-session'),
     LocalStrategy = require('passport-local').Strategy,
     bcrypt        = require('bcrypt-nodejs');
+/* Add the dependency to Stripe */
+var stripe   = require('stripe')('sk_test_MPZw5Of5EjrfHaAM789HgPUc');
 
 /* ===================== CONFIGURATION ==================== */
 

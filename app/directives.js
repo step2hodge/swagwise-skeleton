@@ -6,15 +6,14 @@
 
             return {
                 restrict: 'E',
-                replace: true,
                 scope: {
                     swag: '=',
                     swagSearch: '='
                 },
                 templateUrl: 'templates/product-thumbnail.html',
-                link: function(scope) {
+                controller: function($scope) {
 
-                    scope.addItem = function(item) {
+                    $scope.addItem = function(item) {
                         CartService.addItem(item);
                     };
                 }
@@ -27,7 +26,6 @@
                 scope: {
                 },
                 restrict: 'E',
-                replace: true,
                 templateUrl: 'templates/mini-cart.html',
                 link: function(scope) {
 

@@ -45,6 +45,11 @@
                     url: '/signup',
                     controller: 'SignupController',
                     templateUrl: 'views/signup.html'
+                })
+                .state('checkout', {
+                    url: '/checkout',
+                    controller: 'CheckoutController',
+                    templateUrl: 'views/checkout.html'
                 });
 
         });
