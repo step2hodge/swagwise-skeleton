@@ -13,13 +13,21 @@ module.exports = function(app) {
     // Handle API calls
 
     // Swag API route
-    app.route('/api/swag')
+    app.route('/api/products')
         .get(function(req, res) {
 
-            // use mongoose to get all products in the database
-            mongoose.model('Swag').find(req.query, function(err, swag) {
+		    var filter = {
+			    isActive: true
+		    };
 
-                //http://localhost:9001/api/swag/?isFeatured=true&foo=bar&ninja=false
+		    if (req.query.isFeatured) {
+			    filter.isFeatured = (typeof req.query.isFeatured == 'boolean') ? req.query.isFeatured : true;
+		    }
+
+            // use mongoose to get all products in the database
+            mongoose.model('Product').find(filter, function(err, swag) {
+
+                //http://localhost:9001/api/swag/?isActive=false&foo=bar&ninja=false
                 // req.query = {isFeatured: true, foo: bar, ninja: false}
 
                 // if there is an error retrieving, send the error. nothing after res.send(err) will execute
@@ -30,15 +38,23 @@ module.exports = function(app) {
             });
         });
 
-    app.route('/api/swag/:id')
+    app.route('/api/products/:id')
         .get(function(req, res) {
             // use mongoose to get a product in the database by id
-            mongoose.model('Swag').findOne({id: req.params.id}, function(err, product) {
+            mongoose.model('Product').findOne({id: req.params.id}, function(err, product) {
                 // if there is an error retrieving, send the error. nothing after res.send(err) will execute
                 if (err)
                     res.send(err);
 
-                res.send(product); // return the product in JSON format
+	            if(product.isActive) {
+		            res.send(product); // return the product in JSON format
+	            } else {
+		            res.send({
+			            status: 400,
+			            message: 'The requested product is no longer available'
+		            });
+	            }
+
             });
         });
 

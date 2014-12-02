@@ -1,9 +1,9 @@
 (function(angular) {
     "use strict";
 
-    var app = angular.module('Swagwise');
+    angular.module('Swagwise')
 
-    app.controller('AppController', function($scope, $state, $timeout, Auth) {
+    .controller('AppController', function($scope, $state, $timeout, Auth) {
 
         function successCallback() {
 
@@ -24,9 +24,9 @@
             Auth.logout(successCallback);
         }
 
-    });
+    })
 
-    app.controller('SignupController', function($scope, $state, $timeout, Auth) {
+    .controller('SignupController', function($scope, $state, $timeout, Auth) {
 
         function successCallback() {
             $scope.alert = {
@@ -62,9 +62,9 @@
                 password: $scope.password
             }, successCallback, errorCallback);
         };
-    });
+    })
 
-    app.controller('LoginController', function($scope, $state, $timeout, Auth) {
+    .controller('LoginController', function($scope, $state, $timeout, Auth) {
 
         function successCallback() {
             $scope.alert = {
@@ -102,14 +102,14 @@
 
         };
 
-    });
+    })
 
-    app.controller('HomeController', function($scope, SwagService) {
+    .controller('HomeController', function($scope, SwagService) {
 
         $scope.featuredProducts = SwagService.query({isFeatured: true});
-    });
+    })
 
-    app.controller('SwagController', function($scope, SwagService, filterFilter) {
+    .controller('SwagController', function($scope, SwagService, filterFilter) {
 
         var items = SwagService.query();
 
@@ -128,9 +128,9 @@
             }
         });
 
-    });
+    })
 
-    app.controller('ProductDetailController', function($scope, $stateParams, SwagService) {
+    .controller('ProductDetailController', function($scope, $stateParams, SwagService) {
 
         var product_id = $stateParams.id;
 
@@ -152,10 +152,10 @@
 
         });
 
-    });
+    })
 
     // Inject in the CartService
-    app.controller('CartController', function($scope, $state, CartService) {
+    .controller('CartController', function($scope, $state, CartService) {
 
         // Set the items on the scope to the items in the CartService using the getItems method
         $scope.items = CartService.getItems();
@@ -210,9 +210,9 @@
             $state.go('checkout');
         };
 
-    });
+    })
 
-    app.controller('CheckoutController', function($scope, CartService) {
+    .controller('CheckoutController', function($scope, CartService) {
 
         // Add a card object to the scope
         $scope.card = {};
@@ -224,9 +224,9 @@
 
         };
 
-    });
+    })
 
-    app.controller('ReceiptController', function($scope, $stateParams, CartService) {
+    .controller('ReceiptController', function($scope, $stateParams, CartService) {
 
         var items = CartService.getItems();
 

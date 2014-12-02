@@ -60,26 +60,19 @@ var options = {
  * Mongoose's format.
  */
 
-var mongodbUri = 'mongodb://swagwise:geekwise@ds045679.mongolab.com:45679/geekwise';
+var mongodbUri = 'mongodb://swaguser:swagwise@ds045679.mongolab.com:45679/geekwise';
 var mongooseUri = uriUtil.formatMongoose(mongodbUri);
 var conn = mongoose.connection;
 
-mongoose.connect(mongooseUri, options);
+mongoose.connect('mongodb://localhost:27017/swagwise');
 conn.on('error', console.error.bind(console, 'connection error:'));
-conn.once('open', function() {
-    // Wait for the database connection to establish, then start the app.
-    httpServer.listen(port);                                          // startup our app at http://localhost:9001
-    httpsServer.listen(sslport);                                      // startup our HTTPS server on http://localhost:8443 or :443
-    console.log('Get your swagger on at http://localhost:' + port);   // shoutout to the user
+	conn.once('open', function() {
+		// Wait for the database connection to establish, then start the app.
+		httpServer.listen(port);                                          // startup our app at http://localhost:9001
+		httpsServer.listen(sslport);                                      // startup our HTTPS server on http://localhost:8443 or :443
+		console.log('Get your swagger on at http://localhost:' + port);   // shoutout to the user
     console.log('Get your secure swagger on at https://localhost:' + sslport);   // shoutout to the user
 });
-/*
-mongoose.connect('mongodb://localhost:27017/swag');
-mongoose.connection.once('open', function() {
-    app.listen(port);                                                 // startup our app at http://localhost:9001
-    console.log('Get your swagger on at http://localhost:' + port);   // shoutout to the user
-});
-*/
 
 /* ================= REGISTER MODULES ===================== */
 
@@ -148,6 +141,8 @@ passport.use(new LocalStrategy({ usernameField: 'email' }, function(email, passw
 }));
 
 /* ======================== ROUTES ========================= */
+require('./admin-routes.js')(app);
+
 require('./routes.js')(app);
 
 // Expose the app

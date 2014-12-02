@@ -8,6 +8,14 @@
         $urlRouterProvider
             .otherwise('/');
 
+	    /*
+	    $routeProvider
+	        .where('home', {
+	            controller: '',
+	            template: ''
+	        })
+	     */
+
         $stateProvider
             .state('home', {
                 url: '/',
