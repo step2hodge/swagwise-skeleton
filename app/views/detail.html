@@ -1,0 +1,35 @@
+<div class="container">
+
+    <mini-cart></mini-cart>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="well well-lg">
+                <div class="row">
+                    <div class="col-xs-8 col-md-6">
+                        <carousel interval="imageInterval">
+                            <slide ng-repeat="image in item.images">
+                                <img ng-src="assets/images/{{image}}" alt="{{item.title}}">
+                            </slide>
+                        </carousel>
+                    </div>
+                    <div class="col-xs-4 col-md-6">
+                        <h2 ng-bind="item.title"></h2>
+                        <p ng-bind="item.description">o, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+                        <p><add-cart-button item="item"></add-cart-button></p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Related Products</h3>
+        </div>
+    </div>
+    <product-group swag="relatedSwag"></product-group>
+</div>

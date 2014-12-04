@@ -1,0 +1,104 @@
+<div class="jumbotron">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 col-lg-12">
+                <h1 class="h1">
+                    Cart <small>Show your inner ninja!</small></h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+
+    <div class="alert alert-warning" ng-show="!getItemCount()">
+        <p>There are no items in your cart
+            <a ui-sref="swag" class="btn btn-default">
+                <i class="glyphicon glyphicon-shopping-cart"></i> Continue Shopping
+            </a>
+        </p>
+    </div>
+
+    <div class="row" ng-show="getItemCount()">
+        <div class="col-md-12">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th class="text-center">Price</th>
+                        <th class="text-center">Total</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- repeat of the items in the cart -->
+                    <tr ng-repeat="item in items">
+                        <td class="col-sm-8 col-md-6">
+                            <div class="media">
+                                <a class="thumbnail pull-left">
+                                    <img class="media-object" ng-src="assets/images/{{item.images[0]}}" style="width: 72px; height: 72px;"> </a>
+
+                                <div class="media-body">
+                                    <h4 class="media-heading"><a ui-sref="product({id: item.id})" ng-bind="item.title"></a></h4>
+                                    <h5 class="media-heading"> by {{item.manufacturer}}</h5>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="col-sm-1 col-md-1 text-center">
+                            <input type="number" min="0" class="form-control" required ng-model="item.quantity" ng-change="updateItem(item)">
+                        </td>
+                        <td class="col-sm-1 col-md-1 text-center"><strong ng-bind="getItemPrice(item) | currency"></strong></td>
+                        <td class="col-sm-1 col-md-1 text-center"><strong ng-bind="getItemSubtotal(item) | currency"></strong></td>
+                        <td class="col-sm-1 col-md-1">
+                            <button type="button" class="btn btn-danger" ng-click="removeItem(item.id)">
+                                <span class="glyphicon glyphicon-remove"></span> Remove
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td><h5>Subtotal</h5></td>
+                        <td class="text-right"><h5><strong ng-bind="getCartSubtotal() | currency"></strong></h5></td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td><h5>Estimated shipping</h5></td>
+                        <td class="text-right"><h5><strong></strong></h5></td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td><h3>Total</h3></td>
+                        <td class="text-right"><h3><strong ng-bind="getCartTotal() | currency"></strong></h3></td>
+                    </tr>
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>
+                            <button type="button" class="btn btn-danger" ng-click="emptyCart()">
+                                <span class="glyphicon glyphicon-remove"></span> Empty Cart
+                            </button>
+                        </td>
+                        <td>
+                            <a ui-sref="swag" class="btn btn-default">
+                                <span class="glyphicon glyphicon-shopping-cart"></span> Continue Shopping
+                            </a>
+                        </td>
+                        <td class="text-right">
+                            <button class="btn btn-primary" ng-click="checkout()">
+                                <i class="glyphicon glyphicon-ok"></i> Checkout
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>

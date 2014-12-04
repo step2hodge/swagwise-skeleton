@@ -1,0 +1,39 @@
+<div class="jumbotron">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 col-lg-12">
+                <h1 class="h1">
+                    Swag <small>A whole lot of awesome!</small></h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+
+    <mini-cart></mini-cart>
+
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="input-group">
+                <span class="input-group-addon">Search</span>
+                <input type="text" class="form-control" ng-model="swagSearch">
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <p class="help-block ng-cloak" ng-show="swagSearch">Displaying results for: <strong ng-bind="swagSearch"></strong></p>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <product-group swag="swag"></product-group>
+
+    </div>
+
+</div>
