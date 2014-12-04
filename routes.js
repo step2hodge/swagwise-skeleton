@@ -58,8 +58,6 @@ module.exports = function(app) {
             });
         });
 
-
-
     /* Add the following routes after the products routes */
     // logout API route
     app.get('/api/logout', function(req, res, next) {
@@ -69,8 +67,10 @@ module.exports = function(app) {
 
     // login API route
     app.post('/api/login', passport.authenticate('local'), function(req, res) {
-        res.cookie('user', JSON.stringify(req.user));
-        res.send(req.user);
+	    if (req.isAuthenticated()) {
+		    res.cookie('user', JSON.stringify(req.user));
+		    res.send(req.user);
+	    }
     });
 
     // signup API route

@@ -1,36 +1,28 @@
-module.exports = function(app) {
+module.exports = function(app, passport) {
 
     // Require mongoose dependency
     var mongoose = require('mongoose');
 
-    /* Add the dependency to passport after the mongoose require declaration */
-    var passport = require('passport');
-
     /* Add the dependency to Stripe */
     var stripe   = require('stripe')('sk_test_MPZw5Of5EjrfHaAM789HgPUc');
-
-	/* ======================= MIDDLEWARE ====================== */
-
-	app.use('/api/admin', function(req, res) {
-
-		//console.log('the request %j', req);
-		console.log('hello');
-
-		if (req.user.isAdmin) {
-			next();
-		} else {
-			res.send({
-				status: 400,
-				message: 'Access denied'
-			});
-		}
-	});
 
     /* ======================= REST ROUTES ====================== */
     // Handle API calls
 
+	function checkRole(role) {
+		return function(req, res, next) {
+
+			if (req.user && req.user[role]) {
+				next();
+			} else {
+				res.send(401, 'Unauthorized');
+			}
+		}
+	}
+
     // Swag API route
     app.route('/api/admin/products')
+	    .all(checkRole('isAdmin'))
         .get(function(req, res) {
 
 		    var filter = {};
@@ -41,8 +33,6 @@ module.exports = function(app) {
 
             // use mongoose to get all products in the database
             mongoose.model('Product').find(filter, function(err, swag) {
-
-
 
                 //http://localhost:9001/api/swag/?isActive=false&foo=bar&ninja=false
                 // req.query = {isFeatured: true, foo: bar, ninja: false}
@@ -67,8 +57,8 @@ module.exports = function(app) {
             });
         });
 
-	app.route('/api/admin/users');
+	app.route('/api/admin/users', function(req, res) {});
 
-	app.route('/api/admin/users/:id');
+	app.route('/api/admin/users/:id', function(req, res) {});
 
 };
